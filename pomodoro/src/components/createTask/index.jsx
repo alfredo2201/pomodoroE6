@@ -16,11 +16,10 @@ const CreateTask = () => {
         event.preventDefault();
         // setTask(event.target.nameTask.value);
         console.log('task creado ->', task);
-        console.log(listData);
         listData[0].tasks.push({
             id: uuidv4(),
             name: task
-        })
+        });
         console.log(listData);
     }
 

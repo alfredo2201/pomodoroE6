@@ -8,18 +8,22 @@ export const listData = [
       {
         id: uuidv4(),
         title: ' Eat',
+        done: false,
       },
       {
         id: uuidv4(),
         title: 'Clean',
+        done: false
       },
       {
         id: uuidv4(),
         title: 'Sleep',
+        done: false
       },
       {
         id: uuidv4(),
         title: 'Do homework',
+        done: false
       },
     ],
   },
@@ -30,10 +34,12 @@ export const listData = [
       {
         id: uuidv4(),
         title: 'Play guitar',
+        done: false
       },
       {
         id: uuidv4(),
         title: "Learn Spanish",
+        done: false
       },
     ],
   },
@@ -44,10 +50,12 @@ export const listData = [
       {
         id: uuidv4(),
         title: "Ejercicie",
+        done: false
       },
       {
         id: uuidv4(),
         title: "Play videogames",
+        done: false
       },
     ],
   },

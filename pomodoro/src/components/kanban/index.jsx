@@ -1,10 +1,9 @@
 import './kanban.scss'
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { listData } from "../../listData.js";
 import Card from "../card";
 import { v4 as uuidv4 } from "uuid";
-
 const Kanban = () => {
     const [data, setData] = useState(listData)
     const [task, setTask] = useState('') //asdad
@@ -39,9 +38,10 @@ const Kanban = () => {
         console.log(listData);
         listData[0].tasks.push({
             id: uuidv4(),
-            title: task
+            title: task,
+            done: false,
         })
-        setData(listData);
+        setData(listData); //se agregan los datos
         console.log(listData);
     }
 
@@ -50,62 +50,88 @@ const Kanban = () => {
         console.log(task);
     }
 
+    const deleteTask = (xd) => {
+        console.log(xd)
+        alert(xd)
+    }
+
+    // const reload = () =>{
+        useEffect(() => {
+            return ()=>console.log('tasks changed...');
+        }, [data])
+    // }
+
     return (
         <div>
             <DragDropContext onDragEnd={onDragEnd}>
-            <div className="kanban">
-                {
-                    data.map(section => (
-                        <Droppable
-                            key={section.id}
-                            droppableId={section.id}
-                        >
-                            {(provided) => (
-                                <div
-                                    {...provided.droppableProps}
-                                    className='kanban__section'
-                                    ref={provided.innerRef}
-                                >
-                                    <div className="kanban__section__title">
-                                        {section.title}
+                <div className="kanban">
+                    {
+                        data.map(section => (
+                            <Droppable
+                                key={section.id}
+                                droppableId={section.id}
+                            >
+                                {(provided) => (
+                                    <div
+                                        {...provided.droppableProps}
+                                        className='kanban__section'
+                                        ref={provided.innerRef}
+                                    >
+                                        <div className="kanban__section__title">
+                                            {section.title}
+                                        </div>
+                                        <div className="kanban__section__content">
+                                            {
+                                                section.tasks.map((task, index) => (
+                                                    <Draggable
+                                                        key={task.id}
+                                                        draggableId={task.id}
+                                                        index={index}
+                                                    >
+                                                        {(provided, snapshot) => (
+                                                            <div
+                                                                ref={provided.innerRef}
+                                                                {...provided.draggableProps}
+                                                                {...provided.dragHandleProps}
+                                                                style={{
+                                                                    ...provided.draggableProps.style,
+                                                                    opacity: snapshot.isDragging ? '0.5' : '1'
+                                                                }}
+                                                            >
+                                                                <span className='done'
+                                                                    onClick={() => {
+                                                                        data[2].tasks = data[2].tasks.filter(
+                                                                            x => x.title !== task.title
+                                                                            // console.log(x.title, task.title)
+                                                                        )
+                                                                        // listData[2].tasks.pop()
+                                                                        console.log('deleted ->', task)
+                                                                        // listData.pop();
+                                                                        setData(data);
+                                                                        console.log('data->', data)
+                                                                        
+                                                                    }}
+                                                                >✅</span>
+                                                                {/* : "❌" */}
+                                                                <Card>
+                                                                    {task.title}
+                                                                </Card>
+                                                            </div>
+                                                        )}
+                                                    </Draggable>
+                                                ))
+                                            }
+                                            {provided.placeholder}
+                                        </div>
                                     </div>
-                                    <div className="kanban__section__content">
-                                        {
-                                            section.tasks.map((task, index) => (
-                                                <Draggable
-                                                    key={task.id}
-                                                    draggableId={task.id}
-                                                    index={index}
-                                                >
-                                                    {(provided, snapshot) => (
-                                                        <div
-                                                            ref={provided.innerRef}
-                                                            {...provided.draggableProps}
-                                                            {...provided.dragHandleProps}
-                                                            style={{
-                                                                ...provided.draggableProps.style,
-                                                                opacity: snapshot.isDragging ? '0.5' : '1'
-                                                            }}
-                                                        >
-                                                            <Card>
-                                                                {task.title}
-                                                            </Card>
-                                                        </div>
-                                                    )}
-                                                </Draggable>
-                                            ))
-                                        }
-                                        {provided.placeholder}
-                                    </div>
-                                </div>
-                            )}
-                        </Droppable>
-                    ))
-                }
-            </div>
-        </DragDropContext>
+                                )}
+                            </Droppable>
+                        ))
+                    }
+                </div>
+            </DragDropContext>
 
-        <form className="form"
+            <form className="form"
                 onSubmit={handleSubmit}
                 onChange={handleChange}
             >

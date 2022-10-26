@@ -3,8 +3,16 @@ import './card.scss'
 
 const Card = props => {
     return (
-        <div className='card'>
+        
+        <div>
+            <div 
+            // style={{display: "flex", alignItems: "center"}}
+            >
+            {/* <span style={{display: "flex", alignItems: "center"}}>{ true ? "✅" : "❌"}</span> */}
+            </div>
+            <div className='card'>
             {props.children}
+        </div>
         </div>
     )
 }
