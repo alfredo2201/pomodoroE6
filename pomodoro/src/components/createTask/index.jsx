@@ -29,24 +29,13 @@ const CreateTask = () => {
             <h1 className="title">bbbbb</h1>
 
             <form className="form"
-                // onSubmit={event => {
-                //     event.preventDefault();
-
-                //     console.log(event.target.nameTask.value);
-                //     setTask(event.target.nameTask.value);
-                //     console.log('->',task);
-                // }}
                 onSubmit={handleSubmit}
                 onChange={handleChange}
             >
                 <label name="name">name task</label>
                 <input name="nameTask" type={"text"} placeholder={'name task'} />
-                {/* <input type={"submit"} value={'create task'} /> */}
                 <button type={'submit'}>create task</button>
             </form>
-            {
-                task !== '' ? <h1>hola mundo</h1> : null
-            }
         </div>
     )
 }

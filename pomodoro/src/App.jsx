@@ -12,7 +12,7 @@ function App() {
             </h1>
             <Kanban />
             {/* <Timer/> */}
-            <CreateTask />
+            {/* <CreateTask /> */}
         </div>
     )
 }
