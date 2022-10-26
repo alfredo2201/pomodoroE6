@@ -6,7 +6,7 @@ import Card from "../card";
 import { v4 as uuidv4 } from "uuid";
 const Kanban = () => {
     const [data, setData] = useState(listData)
-    const [task, setTask] = useState('') //asdad
+    const [task, setTask] = useState('')
     const onDragEnd = result => {
         if (!result.destination) return
         const { source, destination } = result
@@ -33,21 +33,19 @@ const Kanban = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // setTask(event.target.nameTask.value);
-        console.log('task creado ->', task);
-        console.log(listData);
-        listData[0].tasks.push({
+        const newData = [...data]
+        newData[0].tasks.push({
             id: uuidv4(),
             title: task,
-            done: false,
-        })
-        setData(listData); //se agregan los datos
-        console.log(listData);
+            done: false
+        });
+        setData(newData);
+        setTask('');
     }
 
     const handleChange = (event) => {
         setTask(event.target.value);
-        console.log(task);
+        // console.log(task);
     }
 
     const deleteTask = (xd) => {
@@ -55,20 +53,28 @@ const Kanban = () => {
         alert(xd)
     }
 
-    // const reload = () =>{
-        useEffect(() => {
-            return ()=>console.log('tasks changed...');
-        }, [data])
-    // }
+    useEffect(() => {
+        console.log('tasks changed...');
+    }, [data])
 
     return (
         <div>
+
+            <form id="form"
+                onSubmit={handleSubmit}
+                // onChange={handleChange}
+            >
+                <label name="name">name task</label>
+                <input name="nameTask" onChange={handleChange} type={"text"} placeholder={'name task'} />
+                <button type={'submit'}>create task</button>
+            </form>
+
             <DragDropContext onDragEnd={onDragEnd}>
                 <div className="kanban">
                     {
-                        data.map(section => (
+                        data.map((section, index) => (
                             <Droppable
-                                key={section.id}
+                                key={index}
                                 droppableId={section.id}
                             >
                                 {(provided) => (
@@ -98,22 +104,18 @@ const Kanban = () => {
                                                                     opacity: snapshot.isDragging ? '0.5' : '1'
                                                                 }}
                                                             >
-                                                                <span className='done'
-                                                                    onClick={() => {
+                                                                {/* <span className='done'
+                                                                    onClick={event => {
                                                                         data[2].tasks = data[2].tasks.filter(
                                                                             x => x.title !== task.title
-                                                                            // console.log(x.title, task.title)
                                                                         )
-                                                                        // listData[2].tasks.pop()
-                                                                        console.log('deleted ->', task)
-                                                                        // listData.pop();
                                                                         setData(data);
                                                                         console.log('data->', data)
-                                                                        
+                                                                        setTask(event)
                                                                     }}
-                                                                >✅</span>
+                                                                >✅</span> */}
                                                                 {/* : "❌" */}
-                                                                <Card>
+                                                                <Card data={data} setData={setData}>
                                                                     {task.title}
                                                                 </Card>
                                                             </div>
@@ -131,14 +133,6 @@ const Kanban = () => {
                 </div>
             </DragDropContext>
 
-            <form className="form"
-                onSubmit={handleSubmit}
-                onChange={handleChange}
-            >
-                <label name="name">name task</label>
-                <input name="nameTask" type={"text"} placeholder={'name task'} />
-                <button type={'submit'}>create task</button>
-            </form>
         </div>
     )
 }
