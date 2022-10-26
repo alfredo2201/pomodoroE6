@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Kanban from "../kanban";
+import "./createTask.scss"
 import { listData } from "../../listData";
 import { v4 as uuidv4 } from "uuid";
 
@@ -8,32 +8,32 @@ const CreateTask = () => {
     // const [data, setData] = useState(listData)
 
     const handleChange = (event) => {
-        setTask(event.target.value);
-        console.log(task);
+        // setTask(event.target.value);
+        // console.log(task);
     }
 
     const handleSubmit = (event) => {
-        event.preventDefault();
-        // setTask(event.target.nameTask.value);
+        event.preventDefault();        
+        const task = event.target.nameTask.value
+        setTask(event.target.nameTask.value);
         console.log('task creado ->', task);
         listData[0].tasks.push({
             id: uuidv4(),
-            name: task
+            title: task,
+            done: false
         });
         console.log(listData);
     }
 
     return (
-        <div>
-            <h1 className="title">bbbbb</h1>
-
+        <div>    
             <form className="form"
                 onSubmit={handleSubmit}
                 onChange={handleChange}
             >
-                <label name="name">name task</label>
-                <input name="nameTask" type={"text"} placeholder={'name task'} />
-                <button type={'submit'}>create task</button>
+                <label className ="form__label" name="name">Name Task: </label>
+                <input className ="form__input" name="nameTask" type={"text"} placeholder={'Name task'} />
+                <button className ="form__button" type={'submit'}>Create</button>
             </form>
         </div>
     )

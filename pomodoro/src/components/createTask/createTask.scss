@@ -1,0 +1,51 @@
+.form {
+    border: 2px solid #3a3a3aa8;
+    border-radius: 10px;
+    background-color: rgb(49, 51, 51);
+    padding: 15px;
+    margin-bottom: 12px;
+
+    &__label {
+        color: white;
+        margin-right: 10px;
+        font-size: 18px;
+    }
+
+    &__input {
+        background-color: #e0e1e9;
+        border-radius: 12px;
+        border: 0;
+        box-sizing: border-box;
+        color: rgb(0, 0, 0);
+        font-size: 18px;
+        height: 100%;
+        outline: 0;
+        text-align: left;
+        padding: 8px 5px 8px 15px;
+    }
+
+    &__button {
+        background-color: cadetblue;
+        border-radius: 12px;
+        border: 0;
+        box-sizing: border-box;
+        color: #eee;
+        cursor: pointer;        
+        font-size: 18px;
+        margin-left: 10px;
+        padding: 9px;
+        height: 100%;
+        width: 100px;
+        text-align: center;
+    }
+
+    &__button:active {
+        background-color: rgb(61, 124, 126);
+    }
+
+
+    -webkit-border-radius:10px;
+    -moz-border-radius:10px;
+    -ms-border-radius:10px;
+    -o-border-radius:10px;
+}

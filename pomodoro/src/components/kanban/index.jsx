@@ -2,11 +2,12 @@ import './kanban.scss'
 import React, { useState, useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { listData } from "../../listData.js";
+import Timer from "../timer/index"
 import Card from "../card";
 import { v4 as uuidv4 } from "uuid";
 const Kanban = () => {
     const [data, setData] = useState(listData)
-    const [task, setTask] = useState('') //asdad
+    const [task, setTask] = useState('')
     const onDragEnd = result => {
         if (!result.destination) return
         const { source, destination } = result
@@ -101,15 +102,11 @@ const Kanban = () => {
                                                                 <span className='done'
                                                                     onClick={() => {
                                                                         data[2].tasks = data[2].tasks.filter(
-                                                                            x => x.title !== task.title
-                                                                            // console.log(x.title, task.title)
-                                                                        )
-                                                                        // listData[2].tasks.pop()
-                                                                        console.log('deleted ->', task)
-                                                                        // listData.pop();
+                                                                            x => x.title !== task.title                                                                            
+                                                                        )                                                                        
+                                                                        console.log('deleted ->', task)                                                                        
                                                                         setData(data);
-                                                                        console.log('data->', data)
-                                                                        
+                                                                        console.log('data->', data)                                                                        
                                                                     }}
                                                                 >✅</span>
                                                                 {/* : "❌" */}
@@ -128,6 +125,7 @@ const Kanban = () => {
                             </Droppable>
                         ))
                     }
+                    <Timer />
                 </div>
             </DragDropContext>
 

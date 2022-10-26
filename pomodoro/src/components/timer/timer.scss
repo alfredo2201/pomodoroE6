@@ -1,0 +1,25 @@
+.container{
+    background-color: cadetblue;
+    border-radius: 10px;
+    width: 30%;
+    display:inline;
+    margin-left: 20px;
+    
+    &__message {
+        font-size: 2em;
+        min-height: 1.3em;
+        margin-bottom: 0.5em;
+        text-align: center;
+    }
+
+    &__timer{
+        font-size: 3em;
+        min-height: 1.3em;        
+        padding: 10px;        
+        text-align: center;
+    }
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
