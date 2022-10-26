@@ -2,17 +2,23 @@ import React from "react";
 import './card.scss'
 
 const Card = props => {
+    const { data, setData, children } = props;
+    // console.log(children)
+    const handleOnClick = () => {
+        const newData = [...data];
+        // newData[2].tasks.for(task => task.title !== children)
+        const dataFilter = newData[2].tasks.filter(task => 
+            task.title !== children
+        )
+        newData[2].tasks = dataFilter;
+        setData(newData);
+    }
     return (
-        
         <div>
-            <div 
-            // style={{display: "flex", alignItems: "center"}}
-            >
-            {/* <span style={{display: "flex", alignItems: "center"}}>{ true ? "✅" : "❌"}</span> */}
-            </div>
             <div className='card'>
-            {props.children}
-        </div>
+                <span onClick={handleOnClick}>✅</span>
+                {children}
+            </div>
         </div>
     )
 }
