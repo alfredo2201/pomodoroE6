@@ -2,12 +2,15 @@ import './kanban.scss'
 import React, { useState, useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { listData } from "../../listData.js";
-import Timer from "../timer/index"
+// import Timer from "../timer/index"
+import Timer from "../timer/index";
 import Card from "../card";
 import { v4 as uuidv4 } from "uuid";
+// import CreateTask from '../CreateTask/'
+import CreateTask from '../createTask/index'
 const Kanban = () => {
     const [data, setData] = useState(listData)
-    const [task, setTask] = useState('') //asdad
+    const [task, setTask] = useState('') 
     const onDragEnd = result => {
         if (!result.destination) return
         const { source, destination } = result
@@ -60,7 +63,7 @@ const Kanban = () => {
 
     return (
         <div>
-
+{/* 
             <form id="form"
                 onSubmit={handleSubmit}
                 // onChange={handleChange}
@@ -68,7 +71,9 @@ const Kanban = () => {
                 <label name="name">name task</label>
                 <input name="nameTask" onChange={handleChange} type={"text"} placeholder={'name task'} />
                 <button type={'submit'}>create task</button>
-            </form>
+            </form> */}
+
+            <CreateTask data={data} setData={setData} task={task} setTask={setTask}/>
 
             <DragDropContext onDragEnd={onDragEnd}>
                 <div className="kanban">
