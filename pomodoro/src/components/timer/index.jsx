@@ -36,6 +36,10 @@ const Timer = () => {
       <div className="container__timer">
         {timerMinutes}:{timerSeconds}
       </div>
+      <div className="buttons">
+        <button className="buttons__start">Start</button>
+        <button className="buttons__reset">Reset</button>
+      </div>
     </div>
   );
 };

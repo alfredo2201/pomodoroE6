@@ -4,7 +4,7 @@
     width: 30%;
     display:inline;
     margin-left: 20px;
-    
+
     &__message {
         font-size: 2em;
         min-height: 1.3em;
@@ -22,4 +22,51 @@
     -moz-border-radius: 10px;
     -ms-border-radius: 10px;
     -o-border-radius: 10px;
+    
 }
+
+.buttons{
+    display: flex;
+    align-items: flex-start;  
+    padding: 10px;
+    &__start{
+        background-color: rgb(58, 107, 109);
+        border-radius: 12px;
+        border: 0;
+        box-sizing: border-box;
+        color: #eee;
+        cursor: pointer;        
+        font-size: 18px;
+        padding: 9px;
+        height: 100%;
+        width: 50%;
+        text-align: center; 
+    }
+    &__start:hover{
+        background-color: rgb(25, 57, 58);
+    }
+    &__start:active{
+        background-color: rgb(118, 163, 165);
+    }
+    &__reset{
+        background-color: rgb(58, 107, 109);
+        border-radius: 12px;
+        border: 0;
+        box-sizing: border-box;
+        color: #eee;
+        cursor: pointer;        
+        font-size: 18px;
+        margin-left: 10px;
+        padding: 9px;
+        height: 100%;
+        width: 50%;
+        text-align: center; 
+    }
+    &__reset:hover{
+        background-color: rgb(25, 57, 58);
+    }
+    &__reset:active{
+        background-color: rgb(118, 163, 165);
+    }
+}
+
