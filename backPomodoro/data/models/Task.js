@@ -1,4 +1,4 @@
-import { DataType } from "sequelize";
+import DataType  from "sequelize";
 import { sequelize } from "../connection.js";
 
 export const Task = sequelize.define("tasks", {
@@ -10,13 +10,16 @@ export const Task = sequelize.define("tasks", {
     unique: true,
   },
   title: {
-    type: DataType.STRING(60),
+    type: DataType.STRING(100),
     allowNull: false,
   },
   status:{
-    type: DataType.EMUN({
+    type: DataType.ENUM({
         values: ['to_do', 'in_progress', 'done'],
         defaultValue: "to_do",
-    })
+    }),
+    allowNull: false
   }
 },{ timestamps: false });
+
+await Task.sync({alter: true})

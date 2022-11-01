@@ -1,4 +1,4 @@
-import { Task } from "../models/Task";
+import { Task } from "../models/Task.js";
 
 const save = async (value) => {
   const { title } = value;

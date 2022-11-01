@@ -5,7 +5,6 @@ import { listData } from "../../listData.js";
 // import Timer from "../timer/index"
 import Timer from "../timer/index";
 import Card from "../card";
-import { v4 as uuidv4 } from "uuid";
 // import CreateTask from '../CreateTask/'
 import CreateTask from '../createTask/index'
 const Kanban = () => {
@@ -35,43 +34,12 @@ const Kanban = () => {
         }
     }
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const newData = [...data]
-        newData[0].tasks.push({
-            id: uuidv4(),
-            title: task,
-            done: false
-        });
-        setData(newData);
-        setTask('');
-    }
-
-    const handleChange = (event) => {
-        setTask(event.target.value);
-        // console.log(task);
-    }
-
-    const deleteTask = (xd) => {
-        console.log(xd)
-        alert(xd)
-    }
-
     useEffect(() => {
         console.log('tasks changed...');
     }, [data])
 
     return (
         <div>
-{/* 
-            <form id="form"
-                onSubmit={handleSubmit}
-                // onChange={handleChange}
-            >
-                <label name="name">name task</label>
-                <input name="nameTask" onChange={handleChange} type={"text"} placeholder={'name task'} />
-                <button type={'submit'}>create task</button>
-            </form> */}
 
             <CreateTask data={data} setData={setData} task={task} setTask={setTask}/>
 
@@ -110,21 +78,6 @@ const Kanban = () => {
                                                                     opacity: snapshot.isDragging ? '0.5' : '1'
                                                                 }}
                                                             >
-                                                                {/* <span className='done'
-                                                                    onClick={event => {
-                                                                        data[2].tasks = data[2].tasks.filter(
-                                                                            x => x.title !== task.title
-                                                                            // console.log(x.title, task.title)
-                                                                        )
-                                                                        // listData[2].tasks.pop()
-                                                                        console.log('deleted ->', task)
-                                                                        // listData.pop();
-                                                                        setData(data);
-                                                                        console.log('data->', data)
-                                                                        
-                                                                    }}
-                                                                >✅</span> */}
-                                                                {/* : "❌" */}
                                                                 <Card data={data} setData={setData}>
                                                                     {task.title}
                                                                 </Card>

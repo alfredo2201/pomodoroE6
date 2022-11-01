@@ -1,10 +1,11 @@
 .container{
     background-color: cadetblue;
     border-radius: 10px;
-    width: 30%;
+    width: 35%;
     display:inline;
-    margin-left: 20px;
-
+    margin-left: 10px;
+    // position: fixed;
+    justify-content: flex-end;
     &__message {
         font-size: 2em;
         min-height: 1.3em;
@@ -69,4 +70,3 @@
         background-color: rgb(118, 163, 165);
     }
 }
-
