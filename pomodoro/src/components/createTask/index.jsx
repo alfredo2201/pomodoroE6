@@ -8,14 +8,11 @@ const notify = (text) => toast(text);
 
 const CreateTask = (props) => {
     const {data, setData, setTask, task} = props;
-    // const [task, setTask] = useState('');
-    // const [data, setData] = useState(listData)
-
     const handleChange = (event) => {
         setTask(event.target.value);
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const newData = [...data]
         console.log(task.length)
@@ -27,6 +24,16 @@ const CreateTask = (props) => {
             toast.error("Empty text field")
             return
         } 
+        await fetch('http://localhost:3000/task',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body:{
+                title: task,
+                status: 'to_do'
+            }
+        })
         newData[0].tasks.push({            
             id: uuidv4(),
             title: task,

@@ -2,11 +2,10 @@ import './kanban.scss'
 import React, { useState, useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { listData } from "../../listData.js";
-// import Timer from "../timer/index"
 import Timer from "../timer/index";
 import Card from "../card";
-// import CreateTask from '../CreateTask/'
 import CreateTask from '../createTask/index'
+
 const Kanban = () => {
     const [data, setData] = useState(listData)
     const [task, setTask] = useState('') 
@@ -35,14 +34,12 @@ const Kanban = () => {
     }
 
     useEffect(() => {
-        console.log('tasks changed...');
+        // console.log('tasks changed...');
     }, [data])
 
     return (
         <div>
-
             <CreateTask data={data} setData={setData} task={task} setTask={setTask}/>
-
             <DragDropContext onDragEnd={onDragEnd}>
                 <div className="kanban">
                     {
