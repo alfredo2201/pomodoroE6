@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 import "./timer.scss";
 
+let textTime = "Time to work"
 const Timer = () => {
   const [timer, setTimer] = useState(10); // 25 minutes
   const [start, setStart] = useState(false);
@@ -9,7 +10,6 @@ const Timer = () => {
   const tick = useRef();
   let breaks = 0;
   let breakTime = false;
-  
   useEffect(() => {
     if (firstStart.current) {
       firstStart.current = !firstStart.current;
@@ -45,8 +45,8 @@ const Timer = () => {
             });
           }          
           if (time === 0 && !breakTime) {                      
-            breaks++
-            console.log("break: "+breaks);
+            breaks++            
+            textTime = "Time to break"
             if (breaks === 4 && !breakTime) {
               breakTime = true; 
               breaks = 0
@@ -54,9 +54,9 @@ const Timer = () => {
             }
             breakTime = true;                        
             return 3;          
-          } else if (time === 0) {
-            console.log("Pasa el break");
+          } else if (time === 0) {            
             breakTime = false;
+            textTime = "Time to work"
             return 10;
           }          
           return time; 
@@ -69,9 +69,11 @@ const Timer = () => {
 
   const breakTimer = () => {
     if (breakTime) {
+      textTime = "Time to break"
       if (breaks === 3) {
         setTimer(25);
         breaks = 0;
+        return
       }
       setTimer(20);
       breaks++;
@@ -106,7 +108,7 @@ const Timer = () => {
   return (
     <div className="container">
       <div className="container__message">
-        <div>Break Time! New session starts in: </div>
+        <div>{textTime}</div>
       </div>
       <div className="container__timer">{dispSecondsAsMins(timer)}</div>
       <div className="buttons">

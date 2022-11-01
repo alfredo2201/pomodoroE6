@@ -2,12 +2,10 @@ import DataType  from "sequelize";
 import { sequelize } from "../connection.js";
 
 export const Task = sequelize.define("tasks", {
-  idTask: {
-    type: DataType.INTEGER,
+  id: {
+    type: DataType.UUID,
+    defaultValue: DataType.UUIDV4,
     primaryKey: true,
-    autoIncrement: true,
-    allowNull: false,
-    unique: true,
   },
   title: {
     type: DataType.STRING(100),

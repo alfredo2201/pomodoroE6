@@ -1,9 +1,11 @@
 import { Task } from "../models/Task.js";
+import { Op } from "sequelize"
 
 const save = async (value) => {
-  const { title } = value;
+  const { title, status } = value;
   const newTask = await Task.create({
     title: title,
+    status: status,
   });
   return newTask;
 };
@@ -24,10 +26,18 @@ const findAll = async () => {
 };
 
 const findOne = async (value) => {
-  const { idTask } = value;
+  const { title } = value;
   return await Task.findAll({
     where: {
-      idTask: idTask,
+      title: title,
+      [Op.or]: [
+        {
+          status: "to_do",
+        },
+        {
+          status: "in_progress",
+        },
+      ],
     },
   });
 };

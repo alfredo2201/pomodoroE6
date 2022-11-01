@@ -8,14 +8,42 @@ export const TaskController = {
                 error.httpStatusCode = 400;
                 next(error);
                 return;
-            }
+            }            
+            const {title, status} = req.body;
+            // const taskFound = await repoTask.findOne({title})
+            // console.log(taskFound)
+            // if(taskFound !== null){ 
+            //     return res.status(400).send(taskFound);
+            // }
+            const newTask = await repoTask.save({title, status});
+            res.status(200).send(newTask);
         }catch(error){
             next(error);
         }
     },
     list: async (req,res,next) => {
         try{
-            const tasks = await repoTask.list();
+            const tasks = await repoTask.findAll();
+            if (!tasks) {
+                const error = new Error('Error');
+                error.httpStatusCode = 400;
+                next(error);
+            }
+            res.status(200).send(tasks);
+        }catch(error){
+            next(error);
+        }
+    },
+    findOne:async (req,res,next) => {
+        try{
+            if (!req.headers) {
+                const error = new Error('Bad Request');
+                error.httpStatusCode = 400;
+                next(error);
+                return;
+            }
+            const {title} = req.headers
+            const tasks = await repoTask.findOne({title});
             if (!tasks) {
                 const error = new Error('Error');
                 error.httpStatusCode = 400;
