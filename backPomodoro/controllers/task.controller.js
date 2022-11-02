@@ -36,13 +36,15 @@ export const TaskController = {
     },
     findOne:async (req,res,next) => {
         try{
-            if (!req.headers) {
+            console.log('help me');
+            if (!req.params) {
                 const error = new Error('Bad Request');
                 error.httpStatusCode = 400;
                 next(error);
                 return;
             }
-            const {title} = req.headers
+            console.log('params->',req.params);
+            const {title} = req.params
             const tasks = await repoTask.findOne({title});
             if (!tasks) {
                 const error = new Error('Error');

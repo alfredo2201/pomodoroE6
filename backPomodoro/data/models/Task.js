@@ -18,6 +18,6 @@ export const Task = sequelize.define("tasks", {
     }),
     allowNull: false
   }
-},{ timestamps: false });
+},{ timestamps: true });
 
 await Task.sync({alter: true})

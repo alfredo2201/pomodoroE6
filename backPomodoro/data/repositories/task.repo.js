@@ -22,24 +22,28 @@ const update = async (value) => {
 };
 
 const findAll = async () => {
+  //select * from tabla order by id asc
   return await Task.findAll();
 };
 
 const findOne = async (value) => {
   const { title } = value;
   return await Task.findAll({
-    where: {
-      title: title,
-      [Op.or]: [
-        {
-          status: "to_do",
-        },
-        {
-          status: "in_progress",
-        },
-      ],
-    },
-  });
+    where:{title},
+    order:['createdAt']
+    // where: {
+    //   title: title,
+    //   [Op.or]: [
+    //     {
+    //       status: "to_do",
+    //     },
+    //     {
+    //       status: "in_progress",
+    //     },
+    //   ],
+    // },
+  }
+  );
 };
 const deleteOne = async (value) => {
   const { idTask } = value;

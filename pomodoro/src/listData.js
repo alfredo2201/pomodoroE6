@@ -1,5 +1,7 @@
+import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
-window.onload = (async () => {
+// window.onload = 
+(async () => {
   const responseData = await fetch("http://127.0.0.1:3000/tasks", {
     method: "GET",
     headers: {
@@ -8,13 +10,25 @@ window.onload = (async () => {
     },
   });
   const data = await responseData.json();
-  addTask(data);
+  await addTask(data);
 })();
 
-const addTask = (values) => {
-  for(let item of values) {
+// const responseData = await axios.get('http://127.0.0.1:3000/tasks');
+// const data = await responseData.json();
+// addTask(data);
+
+// const loadData = async () => {
+//   const responseData = await axios.get('http://127.0.0.1:3000/tasks');
+//   const data = await responseData.json();
+//   addTask(data);
+// }
+
+// await loadData();
+
+const addTask = async(values) => {
+  for (let item of values) {
     if (item.status === "to_do") {
-      listData[0].tasks.push(item);
+    listData[0].tasks.push(item);
     } else if (item.status === "in_progress") {
       listData[0].tasks.push(item);
     } else if (item.status === "done") {
@@ -41,3 +55,5 @@ export const listData = [
     tasks: [],
   },
 ];
+
+

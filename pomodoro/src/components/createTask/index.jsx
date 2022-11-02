@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./createTask.scss";
 import toast, { Toaster } from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
 
 const CreateTask = (props) => {
   const { data, setData, setTask, task } = props;
@@ -20,37 +21,40 @@ const CreateTask = (props) => {
     if (task.length === 0) {
       toast.error("Empty text field");
       return;
-    }
-    const responseData = await fetch("http://127.0.0.1:3000/existTasks", {
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "title":task
-      },
-      method: "GET",      
-    });
-
-    const json = await responseData.json();
-    if(!json){
- 
-        await fetch("http://127.0.0.1:3000/task", {
-            headers: {
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "*",
-            },
-            method: "POST",      
-            body: JSON.stringify({
-              title: task,
-              status: "to_do",
-            }),
-          });
-          newData[0].tasks.push({
+    } //http://127.0.0.1:3000/existTasks
+    // alert(task)
+    // const responseData = await fetch("http://localhost:3000/existTasks", {
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     "Access-Control-Allow-Origin": "*",
+    //     "title":task
+    //   },
+    //   method: "GET",      
+    // });
+    const responseData = await axios.get(`http://localhost:3000/existTasks/${task}`)
+    // const json = await responseData.json();
+    // const xd = responseData.data.args;
+    // alert(responseData.data.args);
+    if(!responseData.data.args){
+        // await fetch("http://127.0.0.1:3000/task", {
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //       "Access-Control-Allow-Origin": "*",
+        //     },
+        //     method: "POST",      
+        //     body: JSON.stringify({
+        //       title: task,
+        //       status: "to_do",
+        //     }),
+        //   });
+        await axios.post('http://localhost:3000/task', {title: task, status: "to_do"})
+          newData[0].tasks.unshift({
             id: uuidv4(),
             title: task,
-            done: false,
+            status: "to_do",
           });
           setData(newData);
-          setTask("");    
+          setTask("");   
           toast('Task added successfully', {
               duration: 3000,
               position: 'top-center',

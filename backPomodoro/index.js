@@ -6,7 +6,8 @@ const app = express()
 
 app.use(express.urlencoded());
 app.use(express.json());
-app.use(cors('*'))
+// app.use(cors('*'))
+app.use(cors());
 app.use(routerTask)
 app.listen(3000, ()=>{
     console.log('Server Listening');    
