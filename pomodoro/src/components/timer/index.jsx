@@ -47,15 +47,19 @@ const Timer = () => {
           if (time === 0 && !breakTime) {                      
             breaks++            
             textTime = "Time to break"
+            toggleStart()            
             if (breaks === 4 && !breakTime) {
               breakTime = true; 
               breaks = 0
+              console.log(breakTime)
               return 15;
             }
-            breakTime = true;                        
+            breakTime = true;       
+            console.log(breakTime)                 
             return 3;          
           } else if (time === 0) {            
             breakTime = false;
+            console.log("Work : "+breakTime)   
             textTime = "Time to work"
             return 10;
           }          
@@ -67,22 +71,38 @@ const Timer = () => {
     }    
   }, [start]);
 
-  const breakTimer = () => {
-    if (breakTime) {
-      textTime = "Time to break"
-      if (breaks === 3) {
-        setTimer(25);
-        breaks = 0;
-        return
-      }
-      setTimer(20);
-      breaks++;
-    } else {
-      setTimer(15);
-    }
-  };
   const toggleStart = () => {
     setStart(!start);
+    if(start){
+      toast('Timer paused', {
+        duration: 1500,
+        position: 'bottom-right',
+      
+        // Styling
+        style: {
+          width:200,
+          height: 50,
+          background: 'cadetblue'          
+        },
+        className: '',
+      
+        // Custom Icon
+        icon: '⌚',
+      
+        // Change colors of success/error/loading icon
+        iconTheme: {
+          primary: '#212',
+          secondary: '#AAAAAA',
+        },
+      
+        // Aria
+        ariaProps: {
+          role: 'status',
+          'aria-live': 'polite',
+        },
+      });
+    }
+    
   };
 
   const dispSecondsAsMins = (seconds) => {
@@ -90,13 +110,6 @@ const Timer = () => {
     let seconds_ = seconds % 60;
     if (seconds_ < 10) {
       seconds_ = "0" + seconds_;
-    }
-    if (seconds == 0 && !breakTime) {
-      toggleStart();
-      breakTime = true;
-      breakTimer();
-    } else {
-      breakTime = false;
     }
     return (
       (mins == 0 ? "00" : mins.toString()) +

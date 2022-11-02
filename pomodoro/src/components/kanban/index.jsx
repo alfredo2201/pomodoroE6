@@ -35,7 +35,7 @@ const Kanban = () => {
   };
   
   useEffect(() => {
-    console.log('')
+    
   }, [data]);
 
   return (
