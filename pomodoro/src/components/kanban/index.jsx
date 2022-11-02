@@ -33,10 +33,10 @@ const Kanban = () => {
       setData(data);
     }
   };
-
+  
   useEffect(() => {
-    console.log('asdasd');
-  }, [task]);
+    console.log('')
+  }, [data]);
 
   return (
     <div>

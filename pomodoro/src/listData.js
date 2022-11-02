@@ -1,7 +1,6 @@
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
-// window.onload = 
-(async () => {
+window.onload = (async () => {
   const responseData = await fetch("http://127.0.0.1:3000/tasks", {
     method: "GET",
     headers: {
@@ -10,6 +9,8 @@ import { v4 as uuidv4 } from "uuid";
     },
   });
   const data = await responseData.json();
+  console.log(data);
+
   await addTask(data);
 })();
 
@@ -20,6 +21,7 @@ import { v4 as uuidv4 } from "uuid";
 // const loadData = async () => {
 //   const responseData = await axios.get('http://127.0.0.1:3000/tasks');
 //   const data = await responseData.json();
+//   // const data = responseData.data.args
 //   addTask(data);
 // }
 

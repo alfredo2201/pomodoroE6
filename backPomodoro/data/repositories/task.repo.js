@@ -23,14 +23,13 @@ const update = async (value) => {
 
 const findAll = async () => {
   //select * from tabla order by id asc
-  return await Task.findAll();
+  return await Task.findAll({order:[['createdAt', 'DESC']]});
 };
 
 const findOne = async (value) => {
   const { title } = value;
   return await Task.findAll({
-    where:{title},
-    order:['createdAt']
+    where:{title}
     // where: {
     //   title: title,
     //   [Op.or]: [
