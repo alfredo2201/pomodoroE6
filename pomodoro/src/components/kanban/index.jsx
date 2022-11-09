@@ -6,6 +6,72 @@ import Timer from "../timer/index";
 import Card from "../card";
 import CreateTask from "../createTask/index";
 
+// const kanban = () =>{
+
+//   const [data, setData] = useState(listData);
+//   const [task, setTask] = useState("");
+
+//   const removeFromList = (list, index)=>{
+//     const result = Array.from(list);
+//     const [removed] = result.splice(index, 1);
+//     return [removed, result];
+//   }
+
+//   const addToList = (list, index, element) =>{
+//     const result = Array.from(list);
+//     result.splice(index, 0, element);
+//     return result;
+//   }
+
+//   const list = ["to_do", "in_progress", "done"];
+
+//   const generateList = () =>{
+//     list.reduce(
+//       (acc, listKey) => ({...acc, [listKey] : data}), {}
+//     )
+//   }
+
+//   function DragList(){
+//     const [elements, setElements] = useState(generateList())
+
+//     useEffect(()=>{
+//       setElements(generateList())
+//     }, [])
+
+//     const onDragEnd = (result) =>{
+//       if(!result.destination){
+//         return;
+//       }
+
+//       const listCopy = {...elements}
+//       const sourceList = listCopy[result.source.droppableId];
+//       const [removedElement, newSourceList] = removeFromList(
+//         sourceList,
+//         result.source.index
+//       );
+//       listCopy[result.source.droppableId] = new newSourceList;
+//       const destinationList = listCopy[result.destination.droppableId];
+//       listCopy[result.destination.droppableId] = addToList(
+//         destinationList,
+//         result.destination.index,
+//         removedElement
+//       )
+//       setElements(listCopy);
+//     }
+
+//     return(
+//       <DragDropContext>
+//         {
+//           list.map((listKey)=>{
+//           })
+//         }
+//       </DragDropContext>
+//     )
+//   }
+// }
+
+// export default kanban;
+
 const Kanban = () => {
   const [data, setData] = useState(listData);
   const [task, setTask] = useState("");
@@ -29,11 +95,13 @@ const Kanban = () => {
       destinationTask.splice(destination.index, 0, removed);
 
       data[sourceColIndex].tasks = sourceTask;
+      // data[sourceColIndex].tasks = sourceCol;
       data[destinationColIndex].tasks = destinationTask;      
       setData(data);
     }
   };
-  
+
+
   useEffect(() => {
     
   }, [data]);

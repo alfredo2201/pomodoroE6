@@ -45,9 +45,9 @@ const findOne = async (value) => {
   );
 };
 const deleteOne = async (value) => {
-  const { idTask } = value;
+  const { title } = value;
   return await Task.destroy({
-    where: { idTask: idTask },
+    where: { title: title },
   });
 };
 export { save, update, findAll, findOne, deleteOne };

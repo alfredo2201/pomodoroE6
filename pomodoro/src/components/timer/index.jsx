@@ -43,7 +43,7 @@ const Timer = () => {
                 'aria-live': 'polite',
               },
             });
-          }          
+          }     
           if (time === 0 && !breakTime) {                      
             breaks++            
             textTime = "Time to break"

@@ -6,7 +6,7 @@ const router = Router()
 router.get('/tasks', TaskController.list)
 router.get('/existTasks/:title', TaskController.findOne)
 router.post('/task', TaskController.create)
-router.delete('/task', TaskController.delete)
+router.delete('/task/:title', TaskController.delete)
 router.put('/task', TaskController.update)
 
 export default router;

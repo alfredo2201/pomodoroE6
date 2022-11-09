@@ -36,14 +36,14 @@ export const TaskController = {
     },
     findOne:async (req,res,next) => {
         try{
-            console.log('help me');
+            // console.log('help me');
             if (!req.params) {
                 const error = new Error('Bad Request');
                 error.httpStatusCode = 400;
                 next(error);
                 return;
             }
-            console.log('params->',req.params);
+            // console.log('params->',req.params);
             const {title} = req.params
             const tasks = await repoTask.findOne({title});
             if (!tasks) {
@@ -86,12 +86,14 @@ export const TaskController = {
     },
     delete: async (req,res,next) => {
         try{
-            if (!req.param) {
+            if (!req.params) {
                 const error = new Error('Bad Request');
                 error.httpStatusCode = 400;
                 next(error);
                 return;
             }
+            const {title} = req.params;
+            await repoTask.deleteOne({title});
         }catch(error){
             next(error);
         }
