@@ -18,9 +18,9 @@ const addTask = async(values) => {
     if (item.status === "to_do") {
     listData[0].tasks.push(item);
     } else if (item.status === "in_progress") {
-      listData[0].tasks.push(item);
+      listData[1].tasks.push(item);
     } else if (item.status === "done") {
-      listData[0].tasks.push(item);
+      listData[2].tasks.push(item);
     }
   }
 };

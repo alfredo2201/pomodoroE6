@@ -45,7 +45,7 @@ export const TaskController = {
             }
             // console.log('params->',req.params);
             const {title} = req.params
-            const tasks = await repoTask.findOne({title});
+            const tasks = await repoTask.findOneByTitle({title});
             if (!tasks) {
                 const error = new Error('Error');
                 error.httpStatusCode = 400;
@@ -63,16 +63,17 @@ export const TaskController = {
                 error.httpStatusCode = 400;
                 next(error);
                 return;
-            }
-        const {idTask,data} = req.body;
-        const task = await repoTask.findOne({idTask})
-        if (!task) {
+            }        
+        const {task} = req.body;
+        const taskFound = await repoTask.findOneByTitle(task)
+        console.log(taskFound)
+        if (!taskFound) {
             const error = new Error('task not found');
             error.httpStatusCode = 400;
             next(error);
             return;
         }
-        const newTask = {...task.dataValues,...data}
+        const newTask = {...taskFound.dataValues,...task}
         const taskUpdated = await repoTask.update(newTask);
         if (taskUpdated === 0) {
             const error = new Error('Client not found');

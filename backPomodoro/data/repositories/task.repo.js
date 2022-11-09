@@ -1,5 +1,5 @@
 import { Task } from "../models/Task.js";
-import { Op } from "sequelize"
+import { Op } from "sequelize";
 
 const save = async (value) => {
   const { title, status } = value;
@@ -11,38 +11,25 @@ const save = async (value) => {
 };
 
 const update = async (value) => {
-  const { idTask, status } = value;
-  const updateTask = await Task.update({
-    status: status,
+  const { id, status } = value;
+  const updateTask = await Task.update({status: status},{   
     where: {
-      idTask: idTask,
-    },
+      id:id
+    }
   });
   return updateTask;
 };
 
 const findAll = async () => {
   //select * from tabla order by id asc
-  return await Task.findAll({order:[['createdAt', 'DESC']]});
+  return await Task.findAll({ order: [["createdAt", "DESC"]] });
 };
 
-const findOne = async (value) => {
+const findOneByTitle = async (value) => {
   const { title } = value;
   return await Task.findAll({
-    where:{title}
-    // where: {
-    //   title: title,
-    //   [Op.or]: [
-    //     {
-    //       status: "to_do",
-    //     },
-    //     {
-    //       status: "in_progress",
-    //     },
-    //   ],
-    // },
-  }
-  );
+    where: { title },
+  });
 };
 const deleteOne = async (value) => {
   const { title } = value;
@@ -50,4 +37,4 @@ const deleteOne = async (value) => {
     where: { title: title },
   });
 };
-export { save, update, findAll, findOne, deleteOne };
+export { save, update, findAll, findOneByTitle, deleteOne };

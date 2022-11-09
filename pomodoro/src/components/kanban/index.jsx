@@ -5,99 +5,66 @@ import { listData } from "../../listData.js";
 import Timer from "../timer/index";
 import Card from "../card";
 import CreateTask from "../createTask/index";
-
-// const kanban = () =>{
-
-//   const [data, setData] = useState(listData);
-//   const [task, setTask] = useState("");
-
-//   const removeFromList = (list, index)=>{
-//     const result = Array.from(list);
-//     const [removed] = result.splice(index, 1);
-//     return [removed, result];
-//   }
-
-//   const addToList = (list, index, element) =>{
-//     const result = Array.from(list);
-//     result.splice(index, 0, element);
-//     return result;
-//   }
-
-//   const list = ["to_do", "in_progress", "done"];
-
-//   const generateList = () =>{
-//     list.reduce(
-//       (acc, listKey) => ({...acc, [listKey] : data}), {}
-//     )
-//   }
-
-//   function DragList(){
-//     const [elements, setElements] = useState(generateList())
-
-//     useEffect(()=>{
-//       setElements(generateList())
-//     }, [])
-
-//     const onDragEnd = (result) =>{
-//       if(!result.destination){
-//         return;
-//       }
-
-//       const listCopy = {...elements}
-//       const sourceList = listCopy[result.source.droppableId];
-//       const [removedElement, newSourceList] = removeFromList(
-//         sourceList,
-//         result.source.index
-//       );
-//       listCopy[result.source.droppableId] = new newSourceList;
-//       const destinationList = listCopy[result.destination.droppableId];
-//       listCopy[result.destination.droppableId] = addToList(
-//         destinationList,
-//         result.destination.index,
-//         removedElement
-//       )
-//       setElements(listCopy);
-//     }
-
-//     return(
-//       <DragDropContext>
-//         {
-//           list.map((listKey)=>{
-//           })
-//         }
-//       </DragDropContext>
-//     )
-//   }
-// }
-
-// export default kanban;
+import axios from "axios";
 
 const Kanban = () => {
   const [data, setData] = useState(listData);
   const [task, setTask] = useState("");
+
+  const actualizarTask = async (task) =>{
+    console.log(task)
+    await axios({
+      method: 'put',
+      url: `http://localhost:3000/task`,
+      data:{
+        task
+      }
+      });
+  } 
+
   const onDragEnd = (result) => {
-    if (!result.destination) return;
+    if (!result.destination) return;    
     const { source, destination } = result;
 
+    //Si es diferente columna
     if (source.droppableId !== destination.droppableId) {
       const sourceColIndex = data.findIndex((e) => e.id === source.droppableId);
       const destinationColIndex = data.findIndex(
         (e) => e.id === destination.droppableId
       );
-
       const sourceCol = data[sourceColIndex];
       const destinationCol = data[destinationColIndex];
 
       const sourceTask = [...sourceCol.tasks];
       const destinationTask = [...destinationCol.tasks];
 
-      const [removed] = sourceTask.splice(source.index, 1);
+      const [removed] = sourceTask.splice(source.index, 1);      
+      if(destinationColIndex == 0){
+        removed.status = "to_do";
+      }else if(destinationColIndex == 1){
+        removed.status = "in_progress";
+      }else{
+        removed.status = "done";
+      }
+      actualizarTask(removed)
       destinationTask.splice(destination.index, 0, removed);
 
       data[sourceColIndex].tasks = sourceTask;
-      // data[sourceColIndex].tasks = sourceCol;
-      data[destinationColIndex].tasks = destinationTask;      
-      setData(data);
+      data[destinationColIndex].tasks = destinationTask;  
+      console.log(data)    
+      setData(data);      
+    }
+    //Si es la misma columna
+    else{
+      const sourceColIndex = data.findIndex((e) => e.id === source.droppableId);
+      const sourceCol = data[sourceColIndex];
+      const sourceTask = [...sourceCol.tasks];
+      //Remueve de la posicion donde se encuentra la tarea seleccionada
+      const [removed] = sourceTask.splice(source.index, 1);      
+      //Y la vuelve a agregar en la posicion donde la soltó
+      sourceTask.splice(destination.index, 0, removed);
+      data[sourceColIndex].tasks = sourceTask;      
+      setData(data);      
     }
   };
 

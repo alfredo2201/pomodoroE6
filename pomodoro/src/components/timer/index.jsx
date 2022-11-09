@@ -3,13 +3,15 @@ import toast, { Toaster } from 'react-hot-toast';
 import "./timer.scss";
 
 let textTime = "Time to work"
+let breaks = 0;
+let breakTime = false;
+
 const Timer = () => {
   const [timer, setTimer] = useState(10); // 25 minutes
   const [start, setStart] = useState(false);
   const firstStart = useRef(true);
   const tick = useRef();
-  let breaks = 0;
-  let breakTime = false;
+
   useEffect(() => {
     if (firstStart.current) {
       firstStart.current = !firstStart.current;
@@ -44,23 +46,36 @@ const Timer = () => {
               },
             });
           }     
-          if (time === 0 && !breakTime) {                      
-            breaks++            
-            textTime = "Time to break"
-            toggleStart()            
-            if (breaks === 4 && !breakTime) {
-              breakTime = true; 
+          if (time == 0 && !breakTime) {                      
+            breaks++;           
+            textTime = `Time to break\n Break number: ${breaks}`
+            toggleStart() 
+            toast((t) => (
+              <span>
+                 <b>Break Time start...</b>
+                <button onClick={() =>{ 
+                  //Es para seguir con el braek
+                  
+                  toast.dismiss(t.id)             
+                  setStart(!start)
+                }}>
+                  Continue
+                </button>
+              </span>
+            ));           
+            if (breaks === 4 && !breakTime) {              
               breaks = 0
               console.log(breakTime)
               return 15;
-            }
-            breakTime = true;       
-            console.log(breakTime)                 
-            return 3;          
-          } else if (time === 0) {            
+            }      
+            breakTime = true                                      
+            return 3;
+               
+          } else if (time == 0) {            
             breakTime = false;
+            toggleStart()
             console.log("Work : "+breakTime)   
-            textTime = "Time to work"
+            textTime = "Time to work"            
             return 10;
           }          
           return time; 
@@ -102,7 +117,6 @@ const Timer = () => {
         },
       });
     }
-    
   };
 
   const dispSecondsAsMins = (seconds) => {
@@ -121,7 +135,9 @@ const Timer = () => {
   return (
     <div className="container">
       <div className="container__message">
-        <div>{textTime}</div>
+        <div>
+          <p>{textTime}</p>        
+        </div>
       </div>
       <div className="container__timer">{dispSecondsAsMins(timer)}</div>
       <div className="buttons">
