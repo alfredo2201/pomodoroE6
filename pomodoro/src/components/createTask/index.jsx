@@ -23,37 +23,12 @@ const CreateTask = (props) => {
       return;
     } 
 
-    //http://127.0.0.1:3000/existTasks
-    // alert(task)
-    // const responseData = await fetch("http://localhost:3000/existTasks", {
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     "Access-Control-Allow-Origin": "*",
-    //     "title":task
-    //   },
-    //   method: "GET",
-    // });
-
     const responseData = await axios.get(
       `http://localhost:3000/existTasks/${task}`
     );
-    
     //De esta forma obtiene el arreglo de las coicidencias al momento de traer 
     //las tareas que se repiten
-    if (!responseData.data) {
-
-      // await fetch("http://127.0.0.1:3000/task", {
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       "Access-Control-Allow-Origin": "*",
-      //     },
-      //     method: "POST",
-      //     body: JSON.stringify({
-      //       title: task,
-      //       status: "to_do",
-      //     }),
-      //   });
-
+    if (!(responseData.data.length)) {
       await axios.post("http://localhost:3000/task", {
         title: task,
         status: "to_do",
@@ -91,6 +66,7 @@ const CreateTask = (props) => {
         },
       });
     } else {
+      console.log('fallamos')
       toast("Task already has been added", {
         duration: 3000,
         position: "top-center",

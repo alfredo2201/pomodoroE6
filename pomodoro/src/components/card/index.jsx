@@ -17,15 +17,9 @@ const Card = props => {
     const handleOnClick = async() => {
         const result = confirm(`¿Desea Eliminar la tarea '${children}'?`);
 
-        // console.log(result);
-
         if (result) {
             const newData = [...data];
-            // newData.find()
-            // newData[2].tasks.for(task => task.title !== children)
-            // const dataFilter = newData[0].tasks.filter(task =>
-            //     task.title !== children
-            // )
+            
             if(newData[0].tasks.find(t => t.title === children)){
                 newData[0].tasks = await filterData(0, newData)
             }
@@ -40,10 +34,20 @@ const Card = props => {
             setData(newData);
         }
     }
+
+    const handleUpdate = () =>{
+        alert('jajaja')
+    }
     return (
         <div>
             <div className='card'>
-                <span onClick={handleOnClick}>✅</span>
+                <span 
+                style={{cursor: "pointer"}}
+                onClick={handleOnClick}>✅</span>
+                <span 
+                style={{cursor: "pointer"}}
+                onClick={handleUpdate}
+                >📝</span>
                 {children}
             </div>
         </div>
