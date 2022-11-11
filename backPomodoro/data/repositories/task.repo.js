@@ -11,8 +11,8 @@ const save = async (value) => {
 };
 
 const update = async (value) => {
-  const { id, status } = value;
-  const updateTask = await Task.update({status: status},{   
+  const { id, status, title } = value; 
+  const updateTask = await Task.update({status: status,title: title },{   
     where: {
       id:id
     }

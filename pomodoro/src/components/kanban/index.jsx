@@ -1,7 +1,7 @@
 import "./kanban.scss";
 import React, { useState, useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { listData } from "../../listData.js";
+import { listData, addTask } from "../../listData.js";
 import Timer from "../timer/index";
 import Card from "../card";
 import CreateTask from "../createTask/index";
@@ -68,10 +68,8 @@ const Kanban = () => {
     }
   };
 
-
   useEffect(() => {
-    
-  }, [data]);
+  }, []);
 
   return (
     <div>
@@ -88,10 +86,10 @@ const Kanban = () => {
                 >
                   <div className="kanban__section__title">{section.title}</div>
                   <div className="kanban__section__content">
-                    {section.tasks.map((task, index) => (
+                    {section.tasks.map((taskV, index) => (
                       <Draggable
-                        key={task.id}
-                        draggableId={task.id}
+                        key={taskV.id}
+                        draggableId={taskV.id}
                         index={index}
                       >
                         {(provided, snapshot) => (
@@ -104,8 +102,10 @@ const Kanban = () => {
                               opacity: snapshot.isDragging ? "0.5" : "1",
                             }}
                           >
-                            <Card data={data} setData={setData}>
-                              {task.title}
+                            <Card data={data} setData={setData}
+                            task={task} setTask={setTask}
+                            >
+                              {taskV.title}
                             </Card>
                           </div>
                         )}

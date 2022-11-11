@@ -13,7 +13,7 @@ window.onload = ( async () => {
 })();
 
 
-const addTask = async(values) => {
+export const addTask = async(values) => {
   for (let item of values) {
     if (item.status === "to_do") {
     listData[0].tasks.push(item);

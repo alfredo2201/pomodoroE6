@@ -13,7 +13,7 @@ const CreateTask = (props) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const newData = [...data];
-    console.log(task.length);
+    // console.log(task.length);
     if (task.length > 100) {
       toast.error("The text exceeds the maximum number of characters allowed");
       return;

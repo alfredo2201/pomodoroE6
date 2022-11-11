@@ -2,11 +2,13 @@ import React from "react";
 import axios from "axios";
 import './card.scss';
 import toast from "react-hot-toast";
+import { useState } from "react";
+import Modal from "../modal";
 
 const Card = props => {
-    const { data, setData, children } = props;
+    const { data, setData, children, task, setTask } = props;
     // console.log(children)
-
+    const [isOpen, setOpen] = useState(false);
     const filterData = async(number, newData)=>{
         const dataFilter = await newData[number].tasks.filter(task =>
                 task.title !== children
@@ -36,7 +38,7 @@ const Card = props => {
     }
 
     const handleUpdate = () =>{
-        alert('jajaja')
+        setOpen(true);
     }
     return (
         <div>
@@ -50,6 +52,13 @@ const Card = props => {
                 >📝</span>
                 {children}
             </div>
+            <Modal open={isOpen} close={setOpen}
+            task={task}
+            setTask={setTask}
+            data={data}
+            setData={setData}
+            title={children}
+            />
         </div>
     )
 }
