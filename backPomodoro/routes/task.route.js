@@ -8,5 +8,6 @@ router.get('/existTasks/:title', TaskController.findOne)
 router.post('/task', TaskController.create)
 router.delete('/task/:title', TaskController.delete)
 router.put('/task', TaskController.update)
+router.put('/task/:title',TaskController.updateTitle)
 
 export default router;

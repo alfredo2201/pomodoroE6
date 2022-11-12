@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import toast from "react-hot-toast";
 import axios from "axios";
-
+import {actualizarTask} from '../../helpers/operations'
 const UpdateTask = (props) => {
     const { data, setData, setTask, task, title, close } = props;
     // const titleTask = task;
@@ -10,22 +10,22 @@ const UpdateTask = (props) => {
         setTask(event.target.value);
     };
 
-    const searchTask = () => {
-        let taskFind = data[0].tasks.find(t => t.title === task)
-        if (taskFind) {
-            return taskFind;
-        }
-        taskFind = data[1].tasks.find(t => t.title === task)
-        if (taskFind) {
-            return taskFind;
-        }
-        taskFind = data[2].tasks.find(t => t.title === task)
-        if (taskFind) {
-            return taskFind;
-        }
+    // const searchTask = () => {
+    //     let taskFind = data[0].tasks.find(t => t.title === task)
+    //     if (taskFind) {
+    //         return taskFind;
+    //     }
+    //     taskFind = data[1].tasks.find(t => t.title === task)
+    //     if (taskFind) {
+    //         return taskFind;
+    //     }
+    //     taskFind = data[2].tasks.find(t => t.title === task)
+    //     if (taskFind) {
+    //         return taskFind;
+    //     }
 
-        return undefined;
-    }
+    //     return undefined;
+    // }
 
     //del listData actualiza el array
     const updateTaskData = (newData) => {
@@ -85,18 +85,22 @@ const UpdateTask = (props) => {
             
             const finData = updateTaskData(newData)
             setData(finData);
-
-            toast.success(`updated task '${title}' to '${task}'`)
+            updateTask(task)
+            toast.success(`updated task '${title}' to '${task}'`, {duration: 3000})
+            
             setTask('')
             close(false)
         } else {
-            toast.error(`repeated task ${task}`);
-
+            toast.error(`repeated task ${task}`, {duration: 3000});
+            setTask('')
         }
     }
 
     const updateTask = async() =>{
-        await axios.put("http://localhost:3000/task", {})
+        await axios.put(`http://localhost:3000/task/${title}`,{
+            task: task
+        })
+        // alert(title)
     }
 
     return (

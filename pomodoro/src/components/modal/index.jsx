@@ -87,12 +87,12 @@ const BotonCerrar = styled.div`
     cursor: pointer;
     transition: .3s ease all;
     border-radius: 50%;
-    color: black;
+    color: white;
 
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #ff0000;
+    background-color: #3a3939;
 
 `;
 

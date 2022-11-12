@@ -80,6 +80,38 @@ export const TaskController = {
             next(error);
         }
     },
+    updateTitle: async(req, res, next) =>{
+        try{
+            if(!req.body || !req.params){
+                const error = new Error('Bad Request');
+                error.httpStatusCode = 400;
+                next(error);
+                return;
+            }
+
+        const {task} = req.body;
+        const {title} = req.params;
+        const taskFound = await repoTask.findOneByTitle({title: title});
+        if (!taskFound) {
+            const error = new Error('task not found');
+            error.httpStatusCode = 400;
+            next(error);
+            return;
+        }
+        const newTask = {...taskFound.dataValues}
+        newTask.title = task;
+        const taskUpdated = await repoTask.updateTitle({newTitle: newTask.title, title: title})
+        if (taskUpdated === 0) {
+            const error = new Error('Client not found');
+            error.httpStatusCode = 400;
+            next(error);
+        }
+        res.status(200).send(taskUpdated)
+        }catch(error){
+            next(error);
+        }
+    }
+    ,
     delete: async (req,res,next) => {
         try{
             if (!req.params) {

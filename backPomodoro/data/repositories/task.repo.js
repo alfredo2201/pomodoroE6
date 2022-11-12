@@ -11,14 +11,24 @@ const save = async (value) => {
 };
 
 const update = async (value) => {
-  const { id, status, title } = value; 
-  const updateTask = await Task.update({status: status,title: title },{   
+  const { id, status, title} = value; 
+  const updateTask = await Task.update({status },{   
     where: {
-      id:id
+      title: title
     }
   });
   return updateTask;
 };
+
+const updateTitle = async(value)=>{
+  const {newTitle, title} = value;
+  const updateTask = await Task.update({title: newTitle},{
+    where:{
+      title: title
+    }
+  })
+  return updateTask;
+}
 
 const findAll = async () => {
   //select * from tabla order by id asc
@@ -27,9 +37,11 @@ const findAll = async () => {
 
 const findOneByTitle = async (value) => {
   const { title } = value;
-  return await Task.findAll({
-    where: { title },
+  const task = await Task.findOne({
+    where: { title: title },
   });
+  // console.log('task found->', task);
+  return task;
 };
 const deleteOne = async (value) => {
   const { title } = value;
@@ -37,4 +49,4 @@ const deleteOne = async (value) => {
     where: { title: title },
   });
 };
-export { save, update, findAll, findOneByTitle, deleteOne };
+export { save, update, updateTitle,findAll, findOneByTitle, deleteOne };
