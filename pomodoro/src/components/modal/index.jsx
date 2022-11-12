@@ -5,6 +5,8 @@ import UpdateTask from "../updateTask";
 
 const Modal = (props) => {
     const {open, close, task, setTask, data, setData, title} = props
+
+
     if(!open) return null;
     return (
         <div>

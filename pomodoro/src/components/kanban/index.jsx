@@ -1,26 +1,16 @@
 import "./kanban.scss";
 import React, { useState, useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { listData, addTask } from "../../listData.js";
+import { listData} from "../../listData.js";
 import Timer from "../timer/index";
 import Card from "../card";
 import CreateTask from "../createTask/index";
-import axios from "axios";
-
+import {actualizarTask} from "../../helpers/operations.js"
 const Kanban = () => {
   const [data, setData] = useState(listData);
   const [task, setTask] = useState("");
 
-  const actualizarTask = async (task) =>{
-    console.log(task)
-    await axios({
-      method: 'put',
-      url: `http://localhost:3000/task`,
-      data:{
-        task
-      }
-      });
-  } 
+  
 
   const onDragEnd = (result) => {
     if (!result.destination) return;    
@@ -45,10 +35,9 @@ const Kanban = () => {
         removed.status = "in_progress";
       }else{
         removed.status = "done";
-      }
+      }    
       actualizarTask(removed)
       destinationTask.splice(destination.index, 0, removed);
-
       data[sourceColIndex].tasks = sourceTask;
       data[destinationColIndex].tasks = destinationTask;  
       console.log(data)    
@@ -67,9 +56,6 @@ const Kanban = () => {
       setData(data);      
     }
   };
-
-  useEffect(() => {
-  }, []);
 
   return (
     <div>

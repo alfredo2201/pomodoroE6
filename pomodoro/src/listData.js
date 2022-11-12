@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-window.onload = ( async () => {
+(async () => {
   const responseData = await fetch("http://127.0.0.1:3000/tasks", {
     method: "GET",
     headers: {
@@ -7,13 +7,12 @@ window.onload = ( async () => {
       "Access-Control-Allow-Origin": "*",
     },
   });
-  const data = await responseData.json();
-  console.log(data);
-  await addTask(data);
+  const data = await responseData.json();  
+   addTask(data);
 })();
 
 
-export const addTask = async(values) => {
+export const addTask = (values) => {
   for (let item of values) {
     if (item.status === "to_do") {
     listData[0].tasks.push(item);

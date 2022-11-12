@@ -54,10 +54,8 @@ const Timer = () => {
               <span>
                  <b>Break Time start...</b>
                 <button onClick={() =>{ 
-                  //Es para seguir con el braek
-                  
-                  toast.dismiss(t.id)             
-                  setStart(!start)
+                  setStart(start)
+                  toast.dismiss(t.id)                               
                 }}>
                   Continue
                 </button>

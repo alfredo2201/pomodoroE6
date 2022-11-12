@@ -10,11 +10,6 @@ export const TaskController = {
                 return;
             }            
             const {title, status} = req.body;
-            // const taskFound = await repoTask.findOne({title})
-            // console.log(taskFound)
-            // if(taskFound !== null){ 
-            //     return res.status(400).send(taskFound);
-            // }
             const newTask = await repoTask.save({title, status});
             res.status(200).send(newTask);
         }catch(error){
