@@ -12,6 +12,28 @@ const Timer = () => {
   const firstStart = useRef(true);
   const tick = useRef();
 
+  const notificaContinuarPomodoro = (actionType) =>{
+    toast((t) => (
+      <span>
+        <b>{actionType} Time start...  </b>
+        <button className="buttons__continue" onClick={() =>{           
+          setStart(start)
+          toast.dismiss(t.id)                               
+        }}>
+          Continue
+        </button>
+      </span>
+    ),{duration: 10000});       
+  }
+
+  const restablecerPomodoro = () =>{
+
+  }
+
+  const omitirDescanso =() =>{
+
+  }
+
   useEffect(() => {
     if (firstStart.current) {
       firstStart.current = !firstStart.current;
@@ -22,61 +44,9 @@ const Timer = () => {
         setTimer((timer) => {
           let time = timer - 1;   
           if(time <= 5 && time > 0 && !breakTime){
-            toast('Break time starts in: '+time, {
-              duration: 1000,
-              position: 'top-center',
-            
-              // Styling
-              style: {},
-              className: '',
-            
-              // Custom Icon
-              icon: '⌚',
-            
-              // Change colors of success/error/loading icon
-              iconTheme: {
-                primary: '#000',
-                secondary: '#fff',
-              },
-            
-              // Aria
-              ariaProps: {
-                role: 'status',
-                'aria-live': 'polite',
-              },
-            });
-          }     
-          if (time == 0 && !breakTime) {                      
-            breaks++;           
-            textTime = `Time to break\n Break number: ${breaks}`
-            toggleStart() 
-            toast((t) => (
-              <span>
-                 <b>Break Time start...</b>
-                <button onClick={() =>{ 
-                  setStart(start)
-                  toast.dismiss(t.id)                               
-                }}>
-                  Continue
-                </button>
-              </span>
-            ));           
-            if (breaks === 4 && !breakTime) {              
-              breaks = 0
-              console.log(breakTime)
-              return 15;
-            }      
-            breakTime = true                                      
-            return 3;
-               
-          } else if (time == 0) {            
-            breakTime = false;
-            toggleStart()
-            console.log("Work : "+breakTime)   
-            textTime = "Time to work"            
-            return 10;
-          }          
-          return time; 
+            textTime = 'Break time starts in:'
+          }               
+          return validaPomodoro(time)           
         });
       }, 1000);
     } else {
@@ -84,31 +54,49 @@ const Timer = () => {
     }    
   }, [start]);
 
+  const validaPomodoro = (time) => {
+    if (time == 0 && !breakTime) {   
+      console.log("Break : "+breakTime)                                
+      breaks++;           
+      textTime = `Time to break  #${breaks}`
+      toggleStart() 
+      notificaContinuarPomodoro("Break")
+      if (breaks === 4 && !breakTime) {              
+        breaks = 0
+        console.log(breakTime)
+        breakTime = true
+        return 15;
+      }                                                 
+      breakTime = true      
+      return 3;              
+    } else if (time === 0) {            
+      console.log("Work : "+breakTime)  
+      toggleStart() 
+      notificaContinuarPomodoro("Work")
+      textTime = "Time to work"            
+      breakTime = false;            
+      return 10;
+    }   
+    return time;
+  }
+
   const toggleStart = () => {
     setStart(!start);
     if(start){
       toast('Timer paused', {
-        duration: 1500,
+        duration: 1000,
         position: 'bottom-right',
-      
-        // Styling
         style: {
           width:200,
           height: 50,
-          background: 'cadetblue'          
+          background: 'white'          
         },
         className: '',
-      
-        // Custom Icon
         icon: '⌚',
-      
-        // Change colors of success/error/loading icon
         iconTheme: {
           primary: '#212',
           secondary: '#AAAAAA',
         },
-      
-        // Aria
         ariaProps: {
           role: 'status',
           'aria-live': 'polite',

@@ -49,4 +49,18 @@
     &__start:active{
         background-color: rgb(118, 163, 165);
     }
+
+    &__continue{
+        background-color: rgb(52, 133, 136);
+        border-radius: 12px;
+        border: 0;
+        box-sizing: border-box;
+        margin-left: 6px;
+        color: #eee;
+        cursor: pointer;        
+        font-size: 17px;
+        width: 90px;
+        height: 40px;
+        text-align: center; 
+    }
 }

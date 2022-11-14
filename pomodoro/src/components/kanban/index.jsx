@@ -10,8 +10,6 @@ const Kanban = () => {
   const [data, setData] = useState(listData);
   const [task, setTask] = useState("");
 
-  
-
   const onDragEnd = (result) => {
     if (!result.destination) return;    
     const { source, destination } = result;
