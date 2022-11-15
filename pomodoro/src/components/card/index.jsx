@@ -43,14 +43,14 @@ const Card = props => {
     return (
         <div>
             <div className='card'>
-                <span 
-                style={{cursor: "pointer"}}
-                onClick={handleOnClick}>✅</span>
-                <span 
+                <span  
                 style={{cursor: "pointer"}}
                 onClick={handleUpdate}
                 >📝</span>
-                {children}
+                <p>{children}</p>                
+                <span
+                className="remove_icon"                 
+                onClick={handleOnClick}>🗑️</span>
             </div>
             <Modal open={isOpen} close={setOpen}
             task={task}

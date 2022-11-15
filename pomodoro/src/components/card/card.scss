@@ -2,9 +2,13 @@
     padding: 30px;
     background-color: rgb(46, 45, 45);
     border-radius: 10px;
+    display: flex;
+    flex-direction: row;    
+    gap: 20px;
+    align-content:center;
 }
 
-.done{
-    display: flex;
-    align-items: center;
+.remove_icon{
+    align-self: flex-end;
+    cursor: pointer;
 }

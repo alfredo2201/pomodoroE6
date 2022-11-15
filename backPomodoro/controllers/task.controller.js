@@ -71,7 +71,7 @@ export const TaskController = {
         const newTask = {...taskFound.dataValues,...task}
         const taskUpdated = await repoTask.update(newTask);
         if (taskUpdated === 0) {
-            const error = new Error('Client not found');
+            const error = new Error('task not found');
             error.httpStatusCode = 400;
             next(error);
         }

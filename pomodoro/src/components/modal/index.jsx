@@ -17,7 +17,6 @@ const Modal = (props) => {
                             <h3
                             >Actualizar </h3>
                         </EncabezadoModal>
-
                         <BotonCerrar onClick={() => close(false)}>
                             <p>X</p>
                         </BotonCerrar>

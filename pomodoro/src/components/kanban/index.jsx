@@ -6,6 +6,7 @@ import Timer from "../timer/index";
 import Card from "../card";
 import CreateTask from "../createTask/index";
 import {actualizarTask} from "../../helpers/operations.js"
+import Swal from 'sweetalert2'
 const Kanban = () => {
   const [data, setData] = useState(listData);
   const [task, setTask] = useState("");
@@ -29,16 +30,18 @@ const Kanban = () => {
       const [removed] = sourceTask.splice(source.index, 1);      
       if(destinationColIndex == 0){
         removed.status = "to_do";
+        actualizarTask(removed)
       }else if(destinationColIndex == 1){
         removed.status = "in_progress";
+        actualizarTask(removed)
       }else{
         removed.status = "done";
-      }    
-      actualizarTask(removed)
+        terminarTarea(removed)
+      }              
+      
       destinationTask.splice(destination.index, 0, removed);
       data[sourceColIndex].tasks = sourceTask;
-      data[destinationColIndex].tasks = destinationTask;  
-      console.log(data)    
+      data[destinationColIndex].tasks = destinationTask;         
       setData(data);      
     }
     //Si es la misma columna
@@ -54,6 +57,22 @@ const Kanban = () => {
       setData(data);      
     }
   };
+
+  const terminarTarea = (task) =>{
+    Swal.fire({
+      title: 'Do you want to finish the task?',
+      showCancelButton: true,
+      confirmButtonText: 'Save',
+    }).then((result) => {      
+      if (result.isConfirmed) {      
+        actualizarTask(task).then(res => Swal.fire('Task finished', '', 'success')
+        )
+        
+      } else if (result.isDenied) {
+        Swal.fire('Changes are not saved', '', 'info')
+      }
+    })
+  }
 
   return (
     <div>

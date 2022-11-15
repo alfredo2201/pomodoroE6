@@ -1,8 +1,7 @@
 import axios from "axios";
 
-export const actualizarTask = async (task) =>{
-    console.log(task)
-    await axios({
+export const actualizarTask = async (task) =>{    
+    return await axios({
       method: 'put',
       url: `http://localhost:3000/task`,
       data:{
