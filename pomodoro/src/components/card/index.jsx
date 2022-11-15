@@ -5,59 +5,75 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import Modal from "../modal";
 
-const Card = props => {
-    const { data, setData, children, task, setTask } = props;
+const Card = (props) => {
+    const { data, setData, children, task, setTask} = props;
+    const [statusTask, setStatusTask] = useState(true)
     // console.log(children)
     const [isOpen, setOpen] = useState(false);
-    const filterData = async(number, newData)=>{
+    const filterData = async (number, newData) => {
         const dataFilter = await newData[number].tasks.filter(task =>
-                task.title !== children
-            )
-            // console.log('dataFilterb->',dataFilter)
+            task.title !== children
+        )
+        // console.log('dataFilterb->',dataFilter)
         return dataFilter
     }
-    const handleOnClick = async() => {
+    const handleOnClick = async () => {
         const result = confirm(`¿Desea Eliminar la tarea '${children}'?`);
 
         if (result) {
             const newData = [...data];
-            
-            if(newData[0].tasks.find(t => t.title === children)){
+
+            if (newData[0].tasks.find(t => t.title === children)) {
                 newData[0].tasks = await filterData(0, newData)
             }
-            if(newData[1].tasks.find(t => t.title === children)){
+            if (newData[1].tasks.find(t => t.title === children)) {
                 newData[1].tasks = await filterData(1, newData)
             }
-            if(newData[2].tasks.find(t => t.title === children)){
+            if (newData[2].tasks.find(t => t.title === children)) {
                 newData[2].tasks = await filterData(2, newData)
             }
             axios.delete(`http://localhost:3000/task/${children}`)
-            .then(toast.success(`Tarea ${children} Eliminada`))
+                .then(toast.success(`Tarea ${children} Eliminada`))
             setData(newData);
         }
     }
 
-    const handleUpdate = () =>{
+    const handleUpdate = () => {
         setOpen(true);
+    }
+
+    const handleStatus = () => {
+        setStatusTask(!statusTask);
+        console.log('status->', status);
     }
     return (
         <div>
+
+            {
+                (statusTask) ?
+                    null
+                    :
+                    <span>tarea pendiente</span>
+            }
+
             <div className='card'>
-                <span  
-                style={{cursor: "pointer"}}
-                onClick={handleUpdate}
-                >📝</span>
-                <p>{children}</p>                
+
                 <span
-                className="remove_icon"                 
-                onClick={handleOnClick}>🗑️</span>
+                    style={{ cursor: "pointer" }}
+                    onClick={handleUpdate}
+                >📝</span>
+                <p>{children}</p>
+                <span
+                    className="remove_icon"
+                    onClick={handleOnClick}>🗑️</span>
+
             </div>
             <Modal open={isOpen} close={setOpen}
-            task={task}
-            setTask={setTask}
-            data={data}
-            setData={setData}
-            title={children}
+                task={task}
+                setTask={setTask}
+                data={data}
+                setData={setData}
+                title={children}
             />
         </div>
     )

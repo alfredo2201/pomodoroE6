@@ -8,8 +8,20 @@ import { v4 as uuidv4 } from "uuid";
     },
   });
   const data = await responseData.json();  
-   addTask(data);
+  addTask(data);
 })();
+
+// export const generarTask = async() =>{
+//   const responseData = await fetch("http://127.0.0.1:3000/tasks", {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//       "Access-Control-Allow-Origin": "*",
+//     },
+//   });
+//   const data = await responseData.json();  
+//   addTask(data);
+// }
 
 
 export const addTask = (values) => {

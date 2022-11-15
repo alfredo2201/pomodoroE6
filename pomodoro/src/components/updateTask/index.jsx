@@ -10,22 +10,6 @@ const UpdateTask = (props) => {
         setTask(event.target.value);
     };
 
-    // const searchTask = () => {
-    //     let taskFind = data[0].tasks.find(t => t.title === task)
-    //     if (taskFind) {
-    //         return taskFind;
-    //     }
-    //     taskFind = data[1].tasks.find(t => t.title === task)
-    //     if (taskFind) {
-    //         return taskFind;
-    //     }
-    //     taskFind = data[2].tasks.find(t => t.title === task)
-    //     if (taskFind) {
-    //         return taskFind;
-    //     }
-
-    //     return undefined;
-    // }
 
     //del listData actualiza el array
     const updateTaskData = (newData) => {
@@ -68,19 +52,6 @@ const UpdateTask = (props) => {
             `http://localhost:3000/existTasks/${task}`
         );
 
-        //significa que no tiene el mismo titulo de alguno
-        //así que se podrá actualizar
-        // if (findTask === undefined) {
-        //     responseData = await axios.get(
-        //         `http://localhost:3000/existTasks/${task}`
-        //     );
-        // } else {
-        //     responseData = await axios.get(
-        //         `http://localhost:3000/existTasks/${findTask.title}`
-        //     );
-        // }
-
-        // console.log('data? -> ', responseData.data);
         if (responseData.data.length === 0) {
             
             const finData = updateTaskData(newData)
@@ -100,7 +71,6 @@ const UpdateTask = (props) => {
         await axios.put(`http://localhost:3000/task/${title}`,{
             task: task
         })
-        // alert(title)
     }
 
     return (

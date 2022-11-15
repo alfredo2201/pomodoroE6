@@ -7,6 +7,7 @@ import Card from "../card";
 import CreateTask from "../createTask/index";
 import {actualizarTask} from "../../helpers/operations.js"
 import Swal from 'sweetalert2'
+import toast from "react-hot-toast";
 const Kanban = () => {
   const [data, setData] = useState(listData);
   const [task, setTask] = useState("");
@@ -30,6 +31,7 @@ const Kanban = () => {
       const [removed] = sourceTask.splice(source.index, 1);      
       if(destinationColIndex == 0){
         removed.status = "to_do";
+        toast.success('Tarea se movió a to do con éxito')
         actualizarTask(removed)
       }else if(destinationColIndex == 1){
         removed.status = "in_progress";
