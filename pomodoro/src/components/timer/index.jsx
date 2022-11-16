@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 import "./timer.scss";
 
@@ -49,6 +49,7 @@ const Timer = () => {
           return validaPomodoro(time)           
         });
       }, 1000);
+      
     } else {
       clearInterval(tick.current);
     }    

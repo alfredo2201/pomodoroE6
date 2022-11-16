@@ -1,7 +1,7 @@
 import "./kanban.scss";
 import React, { useState, useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { listData } from "../../listData.js";
+import { listData, addTask } from "../../listData.js";
 import Timer from "../timer/index";
 import Card from "../card";
 import CreateTask from "../createTask/index";
@@ -9,47 +9,82 @@ import { actualizarTask } from "../../helpers/operations.js";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 
-const Kanban = () => {  
+const Kanban = () => {
   const [data, setData] = useState([]);
   const [task, setTask] = useState("");
 
-  const onDragEnd = (result) => {
+  const onDragEnd = async (result) => {
     if (!result.destination) return;
     const { source, destination } = result;
 
     //Si es diferente columna
     if (source.droppableId !== destination.droppableId) {
       // SourceColIndex es el indice del task
-      const sourceColIndex = data.findIndex((e) => e.id === source.droppableId);  
+      const sourceColIndex = data.findIndex((e) => e.id === source.droppableId);
       const destinationColIndex = data.findIndex(
         (e) => e.id === destination.droppableId
       );
       const sourceCol = data[sourceColIndex];
       const destinationCol = data[destinationColIndex];
 
-      console.log(sourceCol)
+      // console.log(sourceCol)
 
       const sourceTask = [...sourceCol.tasks];
       const destinationTask = [...destinationCol.tasks];
 
-      console.log(sourceTask)
-      console.log(destinationTask)
-      
+      // console.log(sourceTask)
+      // console.log(destinationTask)
+
       const [removed] = sourceTask.splice(source.index, 1);
       if (destinationColIndex == 0) {
         removed.status = "to_do";
         toast.success("Tarea se movió a to do con éxito");
         actualizarTask(removed);
+        destinationTask.splice(destination.index, 0, removed);
+        data[sourceColIndex].tasks = sourceTask;
+        data[destinationColIndex].tasks = destinationTask;
+        setData(data)
       } else if (destinationColIndex == 1) {
         removed.status = "in_progress";
         actualizarTask(removed);
-      } else {
-        removed.status = "done";
-        !terminarTarea(removed)
+        destinationTask.splice(destination.index, 0, removed);
+        data[sourceColIndex].tasks = sourceTask;
+        data[destinationColIndex].tasks = destinationTask;
+        setData(data)
+      } else if (destinationColIndex == 2) {
+        terminarTarea(removed).then((result) => {
+          if (result) {
+            console.log('task done');
+            removed.status = "done";
+            actualizarTask(removed)
+            destinationTask.splice(destination.index, 0, removed);
+            data[sourceColIndex].tasks = sourceTask;
+            data[destinationColIndex].tasks = destinationTask;
+            setData(data)
+          }
+          else {
+            destinationTask.splice(source.index, 0, removed);
+            data[sourceColIndex].tasks = sourceTask;
+            data[destinationColIndex].tasks = destinationTask;
+            setData(data)
+          }
+        })
+        // if(await terminarTarea(removed)){
+        //   console.log('task done');
+        //   removed.status = "done";
+        //   actualizarTask(removed)
+        //   destinationTask.splice(destination.index, 0, removed);
+        //   data[sourceColIndex].tasks = sourceTask;
+        //   data[destinationColIndex].tasks = destinationTask;
+        //   setData(data)
+        // }else{
+        //   destinationTask.splice(source.index, 0, removed);
+        //   data[sourceColIndex].tasks = sourceTask;
+        //   data[destinationColIndex].tasks = destinationTask;
+        //   setData(data)
+        // }
       }
-      destinationTask.splice(destination.index, 0, removed);
-      data[sourceColIndex].tasks = sourceTask;
-      data[destinationColIndex].tasks = destinationTask;
+
       setData(data);
     }
     //Si es la misma columna
@@ -64,6 +99,7 @@ const Kanban = () => {
       data[sourceColIndex].tasks = sourceTask;
       setData(data);
     }
+    // setData(data)
   };
 
   const terminarTarea = async (task) => {
@@ -72,25 +108,34 @@ const Kanban = () => {
       showCancelButton: true,
       confirmButtonText: "Save",
     });
-    if (result.isConfirmed) {
-      actualizarTask(task).then((res) => {
-        if (res) {
-          Swal.fire("Task finished", "", "success");
-        }        
-      });
-    } else if (result.isDenied) {
-      Swal.fire("Changes are not saved", "", "info");
-    }
+    return result.isConfirmed;
   };
 
-  useEffect(()=>{
-    console.log(listData)
-    setData(listData)
-  },[listData])
 
+  useEffect(() => {
+    fetch("http://127.0.0.1:3000/tasks", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    })
+      .then((response) => response.json())
+      .then((task) => {
+        addTask(task);
+        setData(listData);
+        console.log("entra aqui")
+      });
+
+  }, []);
 
   return (
     <div>
+      {/* {
+        (!data) ?
+          <div>Cargando....</div>
+          :
+          <div> */}
       <CreateTask data={data} setData={setData} task={task} setTask={setTask} />
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="kanban">
@@ -141,6 +186,8 @@ const Kanban = () => {
           <Timer />
         </div>
       </DragDropContext>
+      {/* </div>
+      } */}
     </div>
   );
 };
