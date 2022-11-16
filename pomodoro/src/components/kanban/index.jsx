@@ -43,14 +43,14 @@ const Kanban = () => {
         destinationTask.splice(destination.index, 0, removed);
         data[sourceColIndex].tasks = sourceTask;
         data[destinationColIndex].tasks = destinationTask;
-        setData(data)
+        setData([...data])
       } else if (destinationColIndex == 1) {
         removed.status = "in_progress";
         actualizarTask(removed);
         destinationTask.splice(destination.index, 0, removed);
         data[sourceColIndex].tasks = sourceTask;
         data[destinationColIndex].tasks = destinationTask;
-        setData(data)
+        setData([...data])
       } else if (destinationColIndex == 2) {
         terminarTarea(removed).then((result) => {
           if (result) {
@@ -60,29 +60,16 @@ const Kanban = () => {
             destinationTask.splice(destination.index, 0, removed);
             data[sourceColIndex].tasks = sourceTask;
             data[destinationColIndex].tasks = destinationTask;
-            setData(data)
+            setData([...data])
+            toast.success('Task Done')
           }
           else {
+            console.log('task not done')
             destinationTask.splice(source.index, 0, removed);
-            data[sourceColIndex].tasks = sourceTask;
-            data[destinationColIndex].tasks = destinationTask;
-            setData(data)
+            setData([...data])
           }
         })
-        // if(await terminarTarea(removed)){
-        //   console.log('task done');
-        //   removed.status = "done";
-        //   actualizarTask(removed)
-        //   destinationTask.splice(destination.index, 0, removed);
-        //   data[sourceColIndex].tasks = sourceTask;
-        //   data[destinationColIndex].tasks = destinationTask;
-        //   setData(data)
-        // }else{
-        //   destinationTask.splice(source.index, 0, removed);
-        //   data[sourceColIndex].tasks = sourceTask;
-        //   data[destinationColIndex].tasks = destinationTask;
-        //   setData(data)
-        // }
+        
       }
 
       setData(data);
@@ -170,6 +157,8 @@ const Kanban = () => {
                               setData={setData}
                               task={task}
                               setTask={setTask}
+                              time={taskV.updatedAt}
+                              status={taskV.status}
                             >
                               {taskV.title}
                             </Card>

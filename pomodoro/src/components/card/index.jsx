@@ -4,9 +4,10 @@ import './card.scss';
 import toast from "react-hot-toast";
 import { useState } from "react";
 import Modal from "../modal";
+import moment from "moment/moment";
 
 const Card = (props) => {
-    const { data, setData, children, task, setTask} = props;
+    const { data, setData, children, task, setTask, time, status } = props;
     const [statusTask, setStatusTask] = useState(true)
     // console.log(children)
     const [isOpen, setOpen] = useState(false);
@@ -42,20 +43,8 @@ const Card = (props) => {
         setOpen(true);
     }
 
-    const handleStatus = () => {
-        setStatusTask(!statusTask);
-        console.log('status->', status);
-    }
     return (
         <div>
-
-            {
-                (statusTask) ?
-                    null
-                    :
-                    <span>tarea pendiente</span>
-            }
-
             <div className='card'>
 
                 <span
@@ -67,7 +56,14 @@ const Card = (props) => {
                     className="remove_icon"
                     onClick={handleOnClick}>🗑️</span>
 
+
             </div>
+            {
+                    (status === 'done') ?
+                        <span>{moment(time).format('MMMM Do YYYY, h:mm:ss a')}</span>
+                        :
+                        null
+                }
             <Modal open={isOpen} close={setOpen}
                 task={task}
                 setTask={setTask}
