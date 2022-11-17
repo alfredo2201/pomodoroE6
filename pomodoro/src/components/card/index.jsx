@@ -44,9 +44,8 @@ const Card = (props) => {
     }
 
     return (
-        <div>
+        <div id="container_card">
             <div className='card'>
-
                 <span
                     style={{ cursor: "pointer" }}
                     onClick={handleUpdate}
@@ -60,7 +59,7 @@ const Card = (props) => {
             </div>
             {
                     (status === 'done') ?
-                        <span>{moment(time).format('MMMM Do YYYY, h:mm:ss a')}</span>
+                        <span className="time_card">Done on: {moment(time).format('MMMM Do YY, h:mm a')}</span>
                         :
                         null
                 }

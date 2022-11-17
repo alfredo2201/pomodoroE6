@@ -1,3 +1,13 @@
+#container_card{
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(56, 56, 56);
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
 .card {
     padding: 30px;
     background-color: rgb(46, 45, 45);
@@ -11,4 +21,8 @@
 .remove_icon{
     align-self: flex-end;
     cursor: pointer;
+}
+.time_card{
+   align-self: center;
+   padding: 5px;
 }

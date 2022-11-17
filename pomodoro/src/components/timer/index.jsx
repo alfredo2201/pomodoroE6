@@ -11,6 +11,16 @@ const Timer = () => {
   const [start, setStart] = useState(false);
   const firstStart = useRef(true);
   const tick = useRef();
+  const btnStart = useRef();
+  const btnRestore = useRef();
+
+  const restablecerPomodoro = () =>{
+    textTime = "Time to work"
+    breaks = 0;
+    breakTime = false;
+    setTimer(10)
+    btnRestore.current.disabled = true
+  }
 
   const notificaContinuarPomodoro = (actionType) =>{
     toast((t) => (
@@ -23,43 +33,23 @@ const Timer = () => {
           Continue
         </button>
       </span>
-    ),{duration: 10000});       
-  }
-
-  const restablecerPomodoro = () =>{
-
+    ),{duration: 100000});       
   }
 
   const omitirDescanso =() =>{
 
   }
 
-  useEffect(() => {
-    if (firstStart.current) {
-      firstStart.current = !firstStart.current;
-      return;
-    }
-    if (start) {
-      tick.current = setInterval(() => {
-        setTimer((timer) => {
-          let time = timer - 1;   
-          if(time <= 5 && time > 0 && !breakTime){
-            textTime = 'Break time starts in:'
-          }               
-          return validaPomodoro(time)           
-        });
-      }, 1000);
-      
-    } else {
-      clearInterval(tick.current);
-    }    
-  }, [start]);
 
   const validaPomodoro = (time) => {
     if (time == 0 && !breakTime) {   
       console.log("Break : "+breakTime)                                
       breaks++;           
-      textTime = `Time to break  #${breaks}`
+      if(breaks > 0){
+        textTime = `${4-breaks} breaks to go with the long break`
+      }else{
+        textTime = 'Long break'
+      }   
       toggleStart() 
       notificaContinuarPomodoro("Break")
       if (breaks === 4 && !breakTime) {              
@@ -81,7 +71,7 @@ const Timer = () => {
     return time;
   }
 
-  const toggleStart = () => {
+  const toggleStart = () => {    
     setStart(!start);
     if(start){
       toast('Timer paused', {
@@ -119,6 +109,30 @@ const Timer = () => {
     );
   };
 
+
+  useEffect(() => {
+    if (firstStart.current) {
+      firstStart.current = !firstStart.current;      
+      return;
+    }
+    if (start) {
+      btnRestore.current.disabled = false
+      tick.current = setInterval(() => {
+        setTimer((timer) => {
+          let time = timer - 1;   
+          if(time <= 5 && time > 0 && !breakTime){
+            textTime = 'Break time starts in:'
+          }               
+          return validaPomodoro(time)           
+        });
+      }, 1000);
+      
+    } else {
+      clearInterval(tick.current);
+    }    
+  }, [start]);
+
+  
   return (
     <div className="container">
       <div className="container__message">
@@ -128,9 +142,10 @@ const Timer = () => {
       </div>
       <div className="container__timer">{dispSecondsAsMins(timer)}</div>
       <div className="buttons">
-        <button className="buttons__start" onClick={toggleStart}>
+        <button className="buttons__start" ref={btnStart} onClick={toggleStart}>
           {!start ? "Start" : "Stop"}
         </button>
+        <button className="buttons__reset" ref={btnRestore} onClick={restablecerPomodoro}>Reset</button>
         <Toaster/>
       </div>
     </div>

@@ -30,6 +30,8 @@
     display: flex;
     justify-content: center;  
     padding: 10px;
+    gap: 15px;
+    margin: 5px;
     &__start{
         background-color: rgb(52, 133, 136);
         border-radius: 12px;
@@ -48,6 +50,31 @@
     }
     &__start:active{
         background-color: rgb(118, 163, 165);
+    }
+
+    &__reset{
+        background-color: rgb(52, 133, 136);
+        border-radius: 12px;
+        border: 0;
+        box-sizing: border-box;
+        color: #eee;
+        cursor: pointer;        
+        font-size: 18px;
+        padding: 9px;
+        height: 100%;
+        width: 50%;
+        text-align: center; 
+    }
+    &__reset:hover{
+        background-color: rgb(25, 57, 58);
+    }
+    &__reset:active{
+        background-color: rgb(118, 163, 165);
+    }
+
+    &__reset:disabled{
+        background-color: rgb(3, 65, 68);
+        cursor: not-allowed;
     }
 
     &__continue{

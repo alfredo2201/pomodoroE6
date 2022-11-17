@@ -27,13 +27,9 @@ const Kanban = () => {
       const sourceCol = data[sourceColIndex];
       const destinationCol = data[destinationColIndex];
 
-      // console.log(sourceCol)
 
       const sourceTask = [...sourceCol.tasks];
       const destinationTask = [...destinationCol.tasks];
-
-      // console.log(sourceTask)
-      // console.log(destinationTask)
 
       const [removed] = sourceTask.splice(source.index, 1);
       if (destinationColIndex == 0) {
