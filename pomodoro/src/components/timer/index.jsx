@@ -25,7 +25,10 @@ const Timer = () => {
   }
 
   const omitirDescanso = () => {
-    setTimer(1);
+    textTime = "Time to work"
+    breakTime = false;
+    setTimer(10)
+    toggleStart()
   }
 
   const notificaContinuarPomodoro = (actionType) => {
@@ -39,15 +42,14 @@ const Timer = () => {
           Continue
         </button>
       </span>
-    ), { duration: 100000 });
+    ), { duration: 10000 });
   }
 
 
   const validaPomodoro = (time) => {
     if (time == 0 && !breakTime) {
-      console.log("Break : " + breakTime)
       breaks++;
-      if (breaks > 0) {
+      if (breaks < 4) {
         textTime = `${4 - breaks} breaks to go with the long break`
       } else {
         textTime = 'Long break'
@@ -57,7 +59,6 @@ const Timer = () => {
       btnSkip.current.disabled = false;
       if (breaks === 4 && !breakTime) {
         breaks = 0
-        console.log(breakTime)
         breakTime = true
         return 15;
       }
