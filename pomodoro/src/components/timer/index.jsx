@@ -13,7 +13,7 @@ const Timer = () => {
   const tick = useRef();
   const btnStart = useRef();
   const btnRestore = useRef();
-  const btnSkip = useRef();
+  const btnSkip = useRef();  
 
   const restablecerPomodoro = () => {
     textTime = "Time to work"
@@ -36,13 +36,13 @@ const Timer = () => {
       <span>
         <b>{actionType} time start...  </b>
         <button className="buttons__continue" onClick={() => {
-          setStart(start)
+          setStart(start)                 
           toast.dismiss(t.id)
         }}>
           Continue
         </button>
       </span>
-    ), { duration: 10000 });
+    ), { duration: 150000 });
   }
 
 
@@ -127,7 +127,7 @@ const Timer = () => {
         setTimer((timer) => {
           let time = timer - 1;
           if (time <= 5 && time > 0 && !breakTime) {
-            textTime = 'Break time starts in:'
+            textTime = 'Break time starts in:'            
           }
           return validaPomodoro(time)
         });
@@ -142,7 +142,7 @@ const Timer = () => {
   return (
     <div className="container">
       <div className="container__message">
-        <div>
+        <div>              
           <p>{textTime}</p>
         </div>
       </div>
