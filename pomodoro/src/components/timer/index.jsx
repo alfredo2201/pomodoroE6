@@ -14,6 +14,7 @@ const Timer = () => {
   const btnStart = useRef();
   const btnRestore = useRef();
   const btnSkip = useRef();  
+  const alarm = useRef();
 
   const restablecerPomodoro = () => {
     textTime = "Time to work"
@@ -36,7 +37,8 @@ const Timer = () => {
       <span>
         <b>{actionType} time start...  </b>
         <button className="buttons__continue" onClick={() => {
-          setStart(start)                 
+          setStart(start)             
+          alarm.current.paused()    
           toast.dismiss(t.id)
         }}>
           Continue
@@ -48,6 +50,7 @@ const Timer = () => {
 
   const validaPomodoro = (time) => {
     if (time == 0 && !breakTime) {
+      alarm.current.play()
       breaks++;
       if (breaks < 4) {
         textTime = `${4 - breaks} breaks to go with the long break`
@@ -142,6 +145,7 @@ const Timer = () => {
   return (
     <div className="container">
       <div className="container__message">
+      <audio src="./src/assets/sounds/Alarm.mp3" ref={alarm} hidden></audio>
         <div>              
           <p>{textTime}</p>
         </div>
