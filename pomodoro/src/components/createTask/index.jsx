@@ -3,6 +3,7 @@ import "./createTask.scss";
 import toast, { Toaster } from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
 import {obtenTaskExistente,agregarTask} from "../../helpers/operations.js"
+import axios from "axios";
 
 const CreateTask = (props) => {
   const { data, setData, setTask, task } = props;
@@ -22,10 +23,14 @@ const CreateTask = (props) => {
       toast.error("Empty text field");
       return;
     } 
-    const taskExistente = await obtenTaskExistente()
+    const taskExistente = await axios.get(
+      `http://localhost:3000/existTasks/${task}`
+  );
+    // = await obtenTaskExistente()
     //De esta forma obtiene el arreglo de las coicidencias al momento de traer 
     //las tareas que se repiten
-    if (!(taskExistente.data.length)) {
+    // console.log('->',taskExistente.data);
+    if (taskExistente.data.length === 0) {
       const taskAgregado = await agregarTask(task)
 
       if(!(taskAgregado.data.length)){
@@ -70,7 +75,8 @@ const CreateTask = (props) => {
           },
         });
       }      
-    } else {      
+    } else {   
+      setTask('')
       toast("Task already has been added", {
         duration: 3000,
         position: "top-center",
